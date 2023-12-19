@@ -18,17 +18,38 @@ internal class PatchedPageViewController: UIPageViewController {
             return
         }
         isSettingViewControllers = true
+        _disableSwipeGesture()
         super.setViewControllers(viewControllers, direction: direction, animated: animated) { (isFinished) in
             if isFinished && animated {
                 DispatchQueue.main.async {
                     super.setViewControllers(viewControllers, direction: direction, animated: false, completion: { _ in
+                        self._enableSwipeGesture()
                         self.isSettingViewControllers = false
                     })
                 }
             } else {
+                self._enableSwipeGesture()
                 self.isSettingViewControllers = false
             }
             completion?(isFinished)
+        }
+    }
+}
+
+extension UIPageViewController {
+    func _enableSwipeGesture() {
+        for view in self.view.subviews {
+            if let subView = view as? UIScrollView {
+                subView.isScrollEnabled = true
+            }
+        }
+    }
+
+    func _disableSwipeGesture() {
+        for view in self.view.subviews {
+            if let subView = view as? UIScrollView {
+                subView.isScrollEnabled = false
+            }
         }
     }
 }
