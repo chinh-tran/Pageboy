@@ -37,7 +37,7 @@ internal class PatchedPageViewController: UIPageViewController {
 }
 
 extension UIPageViewController {
-    private func enableSwipeGesture() {
+    func enableSwipeGesture() {
         for view in self.view.subviews {
             if let subView = view as? UIScrollView {
                 subView.isScrollEnabled = true
@@ -45,7 +45,7 @@ extension UIPageViewController {
         }
     }
 
-    private func disableSwipeGesture() {
+    func disableSwipeGesture() {
         for view in self.view.subviews {
             if let subView = view as? UIScrollView {
                 subView.isScrollEnabled = false
